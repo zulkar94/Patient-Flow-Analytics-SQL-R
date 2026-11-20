@@ -64,13 +64,14 @@ Rscript -e 'testthat::test_dir("r/tests/testthat", stop_on_failure = TRUE)'
 - **SQLite for portability.** The warehouse runs anywhere with no server. The SQL uses `julianday()` and `DATE()`, which are SQLite functions. Porting to PostgreSQL means replacing these with interval arithmetic. Each file notes the dialect.
 - **Dates as ISO text.** This keeps the schema simple and makes string comparison match date order.
 - **Censoring at 30 days.** Discharges without a full 30-day follow-up are excluded from the readmission rate, and survival times are capped at 30 days, so the model does not treat unobserved time as "no readmission".
+- **Same-day readmissions are kept.** A patient readmitted on the day of discharge has a survival time of 0, which survival models reject. Those events are moved to half a day rather than dropped. Censored rows with no follow-up at all are dropped, since they carry no information.
 - **Logic in SQL, modelling in R.** Aggregation and cohort rules stay in the database layer, where they can be reviewed as code. R receives one row per discharge.
 
 ## Limitations
 
 - The data is synthetic and carries no planted clinical effects, so the models return null results. Adding a realistic readmission effect, such as higher risk for heart failure or older patients, would let the tests check that the model recovers it.
 - The R tests and CI job assume the packages are available from apt on Ubuntu. They have been run locally on R 4.3.3, but the GitHub Actions run is not yet confirmed.
-- Coverage is limited to the query logic. The generator is tested for validity, not for realism.
+- The test suite checks the query logic and the model helpers. The generator is tested for validity, not for realism. Every SQL query was also cross-checked against an independent pandas version at 500, 2,000 and 20,000 patients, with matching results.
 
 ## Project layout
 

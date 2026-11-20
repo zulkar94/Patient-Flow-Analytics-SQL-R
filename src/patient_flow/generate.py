@@ -42,7 +42,7 @@ def generate(
     rng = random.Random(seed)
     patients: list[tuple] = []
     admissions: list[tuple] = []
-    counts, weights = zip(*ADMISSION_COUNT_WEIGHTS.items())
+    counts, weights = zip(*ADMISSION_COUNT_WEIGHTS.items(), strict=True)
     next_admission_id = 1
 
     for i in range(1, n_patients + 1):
@@ -95,9 +95,7 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=Path("data/raw"))
     args = parser.parse_args()
 
-    patients, admissions = generate(
-        args.patients, date(2023, 1, 1), date(2025, 12, 31), args.seed
-    )
+    patients, admissions = generate(args.patients, date(2023, 1, 1), date(2025, 12, 31), args.seed)
     write_csv(args.out / "patients.csv", ["patient_id", "sex", "birth_date"], patients)
     write_csv(
         args.out / "admissions.csv",

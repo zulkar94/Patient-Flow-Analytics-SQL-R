@@ -44,7 +44,7 @@ def connection() -> sqlite3.Connection:
 
 def as_dict(columns: list[str], rows: list[tuple], key: str) -> dict:
     index = columns.index(key)
-    return {row[index]: dict(zip(columns, row)) for row in rows}
+    return {row[index]: dict(zip(columns, row, strict=True)) for row in rows}
 
 
 def test_length_of_stay_by_condition(connection):
@@ -79,9 +79,7 @@ def test_weekly_occupancy_counts_beds_on_week_start(connection):
 
 
 def test_emergency_share_by_age_band(connection):
-    columns, rows = run_query(
-        connection, ANALYSIS_DIR / "04_emergency_admissions_by_age_band.sql"
-    )
+    columns, rows = run_query(connection, ANALYSIS_DIR / "04_emergency_admissions_by_age_band.sql")
     result = as_dict(columns, rows, "age_band")
     # P1 is 73 to 74 years old at admission, so the 60-74 band holds three admissions.
     assert result["60-74"]["admissions"] == 3
@@ -91,7 +89,7 @@ def test_emergency_share_by_age_band(connection):
 
 def test_survival_input_is_censored_at_thirty_days(connection):
     columns, rows = run_query(connection, ANALYSIS_DIR / "05_readmission_survival_input.sql")
-    frame = [dict(zip(columns, row)) for row in rows]
+    frame = [dict(zip(columns, row, strict=True)) for row in rows]
     assert {row["admission_id"] for row in frame} == {1, 2, 4}
     readmitted = next(row for row in frame if row["admission_id"] == 1)
     assert readmitted["event"] == 1

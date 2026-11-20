@@ -34,6 +34,20 @@ test_that("Kaplan-Meier output has one strata per condition", {
   expect_true(all(km$surv >= 0 & km$surv <= 1))
 })
 
+test_that("same-day readmissions are kept and empty follow-up is dropped", {
+  raw <- data.frame(
+    admission_id = 1:3,
+    condition = "pneumonia", age_band = "60-74", sex = "F", admission_type = "emergency",
+    los_days = 3,
+    time_days = c(0, 0, 12),
+    event = c(1, 0, 0)
+  )
+  frame <- prepare_survival_frame(raw)
+  expect_equal(frame$admission_id, c(1, 3))  # censored row with no follow-up is dropped
+  expect_equal(frame$time_days, c(0.5, 12))  # the same-day readmission is kept
+  expect_equal(sum(frame$event), 1)
+})
+
 test_that("plot_kaplan_meier builds a ggplot object", {
   frame <- make_frame()
   p <- plot_kaplan_meier(km_to_frame(fit_kaplan_meier(frame)))

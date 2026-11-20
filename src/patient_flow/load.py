@@ -32,9 +32,7 @@ def build_database(db_path: Path, raw_dir: Path, schema_path: Path = SCHEMA_PATH
             )
         ]
         connection.executemany("INSERT INTO patients VALUES (?, ?, ?)", patients)
-        connection.executemany(
-            "INSERT INTO admissions VALUES (?, ?, ?, ?, ?, ?, ?)", admissions
-        )
+        connection.executemany("INSERT INTO admissions VALUES (?, ?, ?, ?, ?, ?, ?)", admissions)
         connection.commit()
     finally:
         connection.close()

@@ -1,0 +1,5 @@
+age_band,admissions,emergency_admissions,emergency_share
+0-39,592,378,0.639
+40-59,332,224,0.675
+60-74,268,174,0.649
+75+,312,191,0.612

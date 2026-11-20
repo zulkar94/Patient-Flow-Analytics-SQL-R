@@ -1,0 +1,37 @@
+Call:
+survival::coxph(formula = survival::Surv(time_days, event) ~ 
+    condition + age_band + sex + admission_type, data = frame)
+
+  n= 1502, number of events= 67 
+
+                                   coef exp(coef) se(coef)      z Pr(>|z|)  
+conditioncopd_exacerbation     -0.27869   0.75678  0.40971 -0.680   0.4964  
+conditiondiabetes_complication -0.27947   0.75618  0.40249 -0.694   0.4875  
+conditionheart_failure         -0.43020   0.65038  0.42651 -1.009   0.3131  
+conditionhip_replacement       -0.45138   0.63675  0.45754 -0.987   0.3239  
+conditionpneumonia             -0.36346   0.69527  0.41014 -0.886   0.3755  
+age_band40-59                   0.33574   1.39898  0.32366  1.037   0.2996  
+age_band60-74                   0.04077   1.04161  0.38245  0.107   0.9151  
+age_band75+                     0.44867   1.56622  0.31844  1.409   0.1589  
+sexM                            0.47221   1.60353  0.25362  1.862   0.0626 .
+admission_typeemergency        -0.20706   0.81297  0.29708 -0.697   0.4858  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+                               exp(coef) exp(-coef) lower .95 upper .95
+conditioncopd_exacerbation        0.7568     1.3214    0.3390     1.689
+conditiondiabetes_complication    0.7562     1.3224    0.3436     1.664
+conditionheart_failure            0.6504     1.5376    0.2819     1.500
+conditionhip_replacement          0.6368     1.5705    0.2597     1.561
+conditionpneumonia                0.6953     1.4383    0.3112     1.553
+age_band40-59                     1.3990     0.7148    0.7418     2.638
+age_band60-74                     1.0416     0.9601    0.4922     2.204
+age_band75+                       1.5662     0.6385    0.8391     2.924
+sexM                              1.6035     0.6236    0.9754     2.636
+admission_typeemergency           0.8130     1.2301    0.4541     1.455
+
+Concordance= 0.594  (se = 0.032 )
+Likelihood ratio test= 8.01  on 10 df,   p=0.6
+Wald test            = 7.97  on 10 df,   p=0.6
+Score (logrank) test = 8.09  on 10 df,   p=0.6
+

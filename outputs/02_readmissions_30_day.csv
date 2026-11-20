@@ -1,0 +1,7 @@
+condition,discharges,readmissions_30d,readmission_rate
+appendicitis,267,15,0.056
+diabetes_complication,258,12,0.047
+hip_replacement,257,11,0.043
+copd_exacerbation,234,10,0.043
+pneumonia,248,10,0.04
+heart_failure,238,9,0.038
